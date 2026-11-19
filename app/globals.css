@@ -120,21 +120,35 @@ a {
 .cover__skip { position: absolute; right: 1.5rem; bottom: 1.5rem; z-index: 5; padding: .6rem 1rem; border: 1px solid #f5e9d655; border-radius: 99px; background: #26392fcc; color: #fff8eb; font-size: .75rem; cursor: pointer; }
 .envelope__glow { position: absolute; left: 50%; top: 50%; width: 30vmin; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #fff8e9 0%, #efd3a88c 20%, transparent 70%); transform: translate(-50%, -50%) scale(.1); opacity: 0; pointer-events: none; mix-blend-mode: screen; }
 
-.cover--opening .cover__intro, .cover--opening .cover__action { animation: envelope-copy-away .7s cubic-bezier(.2, .7, .25, 1) both; }
-.cover--opening .envelope__seams { animation: envelope-seams 1.2s ease both; }
-.cover--opening .wax-seal { animation: envelope-unseal .75s cubic-bezier(.2, .75, .25, 1) both; }
-.cover--opening .envelope__panel--top { animation: envelope-top 1.1s cubic-bezier(.22, .75, .25, 1) .55s both; }
-.cover--opening .envelope__panel--left { animation: envelope-left 1.25s cubic-bezier(.22, .75, .25, 1) .95s both; }
-.cover--opening .envelope__panel--right { animation: envelope-right 1.25s cubic-bezier(.22, .75, .25, 1) 1.08s both; }
-.cover--opening .envelope__panel--bottom { animation: envelope-bottom 1.35s cubic-bezier(.22, .75, .25, 1) 1.35s both; }
-.cover--opening .envelope__glow { animation: envelope-light 2.2s ease .85s both; }
-.invite--opening .hero { animation: invitation-arrive 3.8s cubic-bezier(.2, .65, .3, 1) both; }
-.invite--opening .hero__content { animation: hero-panel-arrive 1.15s cubic-bezier(.2, .75, .25, 1) 2.05s both; }
-.invite--opening .hero__card { animation: hero-date-arrive .9s cubic-bezier(.2, .75, .25, 1) 2.55s both; }
-.invite--opening .topbar { animation: invitation-text .8s ease 2.7s both; }
+.curtain { position: absolute; z-index: 2; inset: 0; pointer-events: none; visibility: hidden; }
+.curtain__panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.2%;
+  background-color: #34483c;
+  background-image: linear-gradient(90deg, #24372fe8, #526b58aa 18%, #34483c55 48%, #24372f99), url("/images/envelope-floral.svg"), linear-gradient(125deg, #82947d, #34483c 65%, #526b58);
+  background-size: cover, 240px 320px, cover;
+  box-shadow: inset 0 0 48px #17251e55, 0 0 30px #17251e44;
+  will-change: transform;
+}
+.curtain__panel--left { left: 0; border-right: 2px solid #e6dfbd99; transform-origin: left center; }
+.curtain__panel--right { right: 0; border-left: 2px solid #e6dfbd99; transform-origin: right center; }
+.cover--opening .curtain { visibility: visible; }
+.cover--opening .curtain__panel--left { animation: curtain-open-left 1.8s cubic-bezier(.7, 0, .2, 1) .08s both; }
+.cover--opening .curtain__panel--right { animation: curtain-open-right 1.8s cubic-bezier(.7, 0, .2, 1) .08s both; }
+.cover--opening .cover__intro, .cover--opening .cover__action { animation: envelope-copy-away .35s ease both; }
+.cover--opening .envelope { animation: invitation-cover-dim .5s ease both; }
+.invite--opening .hero { animation: invitation-arrive 1.9s cubic-bezier(.2, .65, .3, 1) both; }
+.invite--opening .hero__content { animation: hero-panel-arrive .9s cubic-bezier(.2, .75, .25, 1) .45s both; }
+.invite--opening .hero__card { animation: hero-date-arrive .75s cubic-bezier(.2, .75, .25, 1) .75s both; }
+.invite--opening .topbar { animation: invitation-text .7s ease .65s both; }
 .hero h1:focus { outline: none; }
 
 @keyframes envelope-copy-away { to { opacity: 0; transform: translateY(-18px) scale(.98); } }
+@keyframes invitation-cover-dim { to { opacity: .2; } }
+@keyframes curtain-open-left { to { transform: translateX(-101%); } }
+@keyframes curtain-open-right { to { transform: translateX(101%); } }
 @keyframes envelope-seams { 20% { opacity: 1; filter: drop-shadow(0 0 10px #e6dfbd); } to { opacity: 0; } }
 @keyframes envelope-unseal {
   0% { transform: translate(-50%, -50%) rotate(-8deg); }

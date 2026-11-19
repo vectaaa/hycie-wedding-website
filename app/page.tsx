@@ -45,7 +45,7 @@ export default function Home() {
 
   useEffect(() => {
     if (phase !== "opening") return;
-    const timer = window.setTimeout(() => setPhase("opened"), 3800);
+    const timer = window.setTimeout(() => setPhase("opened"), 1900);
     return () => window.clearTimeout(timer);
   }, [phase]);
 
@@ -164,6 +164,10 @@ export default function Home() {
             </svg>
             <div className="envelope__glow" />
             <div className="wax-seal"><span>C<span className="wax-seal__amp">&amp;</span>U</span></div>
+          </div>
+          <div className="curtain" aria-hidden="true">
+            <div className="curtain__panel curtain__panel--left" />
+            <div className="curtain__panel curtain__panel--right" />
           </div>
           <div className="cover__intro">
             <p className="eyebrow">A little love, sealed for you</p>
