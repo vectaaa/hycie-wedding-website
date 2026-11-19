@@ -1016,9 +1016,9 @@ textarea {
     position: relative;
     right: auto;
     bottom: auto;
-    justify-self: end;
+    justify-self: center;
     width: min(100%, 14rem);
-    margin: .8rem 1rem 0 0;
+    margin: .8rem auto 0;
   }
 
   .hero__carousel-controls {
