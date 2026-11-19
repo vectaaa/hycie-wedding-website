@@ -9,10 +9,10 @@ function setup() {
   let sheet = book.getSheetByName('RSVPs');
   if (!sheet) sheet = book.insertSheet('RSVPs');
   if (!sheet.getLastRow()) {
-    sheet.appendRow(['Response ID', 'Received at', 'Full name', 'Attendance', 'Guests', 'Message', 'Email', 'Email status']);
+    sheet.appendRow(['Response ID', 'Received at', 'Full name', 'Attendance', 'Guests', 'Message', 'Email', 'Email status', 'Guest email status']);
     sheet.setFrozenRows(1);
   } else {
-    const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    let headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     if (!headers.includes('Email')) {
       const statusIndex = headers.indexOf('Email status');
       if (statusIndex >= 0) {
@@ -23,6 +23,10 @@ function setup() {
         sheet.getRange(1, emailColumn).setValue('Email');
         sheet.getRange(1, emailColumn + 1).setValue('Email status');
       }
+      headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    }
+    if (!headers.includes('Guest email status')) {
+      sheet.getRange(1, sheet.getLastColumn() + 1).setValue('Guest email status');
     }
   }
   // Authorize mail without sending a test message.
@@ -58,7 +62,8 @@ function doPost(e) {
     // Prefix formula-like input to keep guest text from executing as a formula.
     const text = value => /^[\s]*[=+@-]/.test(value) ? "'" + value : value;
     sheet.appendRow([data.id, new Date(), text(data.name.trim()), data.attending,
-      data.attending === 'Sadly, no' ? 0 : data.guests, text(data.note.trim()), text(data.email.trim()), 'Pending']);
+      data.attending === 'Sadly, no' ? 0 : data.guests, text(data.note.trim()), text(data.email.trim()), 'Pending',
+      data.email.trim() ? 'Pending' : 'Not provided']);
     SpreadsheetApp.flush();
     return json({ ok: true });
   } catch (_) {
@@ -72,7 +77,6 @@ function doPost(e) {
 function sendPendingNotifications() {
   const properties = PropertiesService.getScriptProperties();
   const recipient = properties.getProperty('NOTIFICATION_EMAIL');
-  if (!recipient) throw new Error('Set NOTIFICATION_EMAIL in Script Properties.');
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(1000)) return;
   try {
@@ -83,18 +87,37 @@ function sendPendingNotifications() {
     let sent = 0;
     for (let i = 1; i < rows.length && quota > 0 && sent < 20; i++) {
       const row = rows[i];
-      if (row[7] !== 'Pending') continue;
-      try {
-        MailApp.sendEmail({
-          to: recipient,
-          subject: 'New wedding RSVP — Jane Doe & John Doe',
-          body: 'Name: ' + row[2] + '\nEmail: ' + (row[6] || 'Not provided') + '\nAttendance: ' + row[3] + '\nGuests: ' + row[4] +
-            '\nMessage: ' + row[5] + '\n\nView all responses: ' + book.getUrl(),
-        });
-        sheet.getRange(i + 1, 8).setValue('Sent');
-        SpreadsheetApp.flush();
-        quota--; sent++;
-      } catch (_) { break; }
+      // Send the guest confirmation first so it is prioritized if the daily quota is low.
+      if (row[8] === 'Pending' && row[6] && quota > 0 && sent < 20) {
+        try {
+          const greeting = row[2] ? 'Dear ' + row[2] + ',' : 'Hello,';
+          const attendanceNote = row[3] === 'Yes, joyfully'
+            ? 'We are delighted you will celebrate with us. The church ceremony begins at 11:00 AM at St. Dominic Catholic Church, Yaba. The reception follows at 2:00 PM at The SIG Lagos, 7/9 Molade Okoya Thomas Street, Victoria Island, Lagos.'
+            : 'Thank you for letting us know. We will miss celebrating with you, and we appreciate you sending your RSVP.';
+          MailApp.sendEmail({
+            to: row[6],
+            subject: 'We received your wedding RSVP — Chidinma & Ugochukwu',
+            body: greeting + '\n\nThank you for your RSVP. ' + attendanceNote +
+              '\n\nWith love,\nChidinma & Ugochukwu\n#UCLoveStory',
+          });
+          sheet.getRange(i + 1, 9).setValue('Sent');
+          SpreadsheetApp.flush();
+          quota--; sent++;
+        } catch (_) { /* Keep this guest email pending and try again on the next run. */ }
+      }
+      if (row[7] === 'Pending' && recipient && quota > 0 && sent < 20) {
+        try {
+          MailApp.sendEmail({
+            to: recipient,
+            subject: 'New wedding RSVP — Chidinma & Ugochukwu',
+            body: 'Name: ' + row[2] + '\nEmail: ' + (row[6] || 'Not provided') + '\nAttendance: ' + row[3] + '\nGuests: ' + row[4] +
+              '\nMessage: ' + row[5] + '\n\nView all responses: ' + book.getUrl(),
+          });
+          sheet.getRange(i + 1, 8).setValue('Sent');
+          SpreadsheetApp.flush();
+          quota--; sent++;
+        } catch (_) { /* Keep this notification pending and try again on the next run. */ }
+      }
     }
   } finally { lock.releaseLock(); }
 }

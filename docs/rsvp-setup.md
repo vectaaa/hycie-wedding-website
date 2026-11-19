@@ -9,9 +9,9 @@ No Google password or credentials belong in the browser code.
 2. In the sheet, choose **Extensions → Apps Script**.
 3. Replace the contents of `Code.gs` with `google-apps-script/Code.gs` from this project and save.
 4. Select `setup` in the function dropdown and click **Run**. Authorize spreadsheet, mail, and trigger access in your Google account. Only authorize your own script. This creates the RSVPs tab, generates a secret, and installs the five-minute email queue trigger; it sends no test email.
-5. Open **Project Settings → Script Properties**. Add `NOTIFICATION_EMAIL` with your email address. Keep the generated `SPREADSHEET_ID` and `RSVP_SHARED_SECRET`. Copy the secret privately for step 3.
+5. Open **Project Settings → Script Properties**. Add `NOTIFICATION_EMAIL` with your email address to receive RSVP notifications. Keep the generated `SPREADSHEET_ID` and `RSVP_SHARED_SECRET`. Copy the secret privately for step 3.
 
-The RSVP sheet stores an optional guest email in an `Email` column. If you already created the sheet with an older version of this script, paste in the updated `Code.gs`, run `setup` once, and it will add the column before `Email status` while preserving existing responses.
+The RSVP sheet stores an optional guest email in an `Email` column. Guests who provide an email receive an RSVP confirmation with event details. If you already created the sheet with an older version of this script, paste in the updated `Code.gs` and run `setup` once. It adds any missing email columns while preserving existing responses; historic rows are not queued for guest emails.
 
 ## 2. Deploy the script
 
@@ -24,7 +24,7 @@ Deploy, authorize if prompted, and copy the URL ending in `/exec`. Keep the spre
 
 After later code edits, use **Deploy → Manage deployments → Edit → New version → Deploy**. Saving code alone does not update a versioned deployment.
 
-After updating this script, create and deploy a new version before testing the website. The website uses the email address only when a guest chooses to provide it; it is collected for event reminders and updates.
+After updating this script, create and deploy a new version before testing the website. The website uses the email address only when a guest chooses to provide it. The guest receives a confirmation email after submitting; the couple receives a separate notification.
 
 ## 3. Configure this website
 
@@ -45,7 +45,8 @@ Submit an RSVP with an identifiable test name. Confirm:
 
 - The form says it was saved.
 - A row appears in the **RSVPs** tab.
-- An email arrives, normally within five minutes, and Email status becomes **Sent**.
+- A confirmation email arrives for a guest who entered an email, normally within five minutes, and Guest email status becomes **Sent**.
+- The couple notification arrives, normally within five minutes, and Email status becomes **Sent**.
 
 You can run `sendPendingNotifications` in Apps Script to process the queue immediately. Google mail quotas apply; pending messages remain queued when quota runs out. Check Apps Script **Executions** if mail fails and check the recipient/spam folder. The sheet is the source of truth.
 

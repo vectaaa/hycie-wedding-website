@@ -45,9 +45,12 @@ test('email failure leaves RSVP saved and pending for a later retry', () => {
   failMail(true);
   context.sendPendingNotifications();
   assert.equal(rows[1][7], 'Pending');
+  assert.equal(rows[1][8], 'Pending');
   failMail(false);
   context.sendPendingNotifications();
   context.sendPendingNotifications();
   assert.equal(rows[1][7], 'Sent');
-  assert.equal(messages.length, 1);
+  assert.equal(rows[1][8], 'Sent');
+  assert.equal(messages.length, 2);
+  assert.equal(messages[0].to, 'guest@example.com');
 });
