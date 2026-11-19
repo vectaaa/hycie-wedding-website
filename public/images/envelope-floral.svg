@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="320" viewBox="0 0 240 320" fill="none">
+ <defs>
+  <filter id="emboss"><feOffset dy="1"/><feGaussianBlur stdDeviation=".35"/><feComposite in2="SourceAlpha" operator="out"/><feFlood flood-color="#edc6ac" flood-opacity=".27"/><feComposite in2="SourceGraphic" operator="in"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <g id="leaf"><path d="M0 0C-24-4-33-22-28-39C-9-33 3-20 0 0Z"/><path d="M0 0L-23-32M-10-15L-23-18M-15-22L-13-31"/></g>
+  <g id="flower"><path d="M0-8C-28-42-43-10-17 0C-44 18-14 39 0 13C10 43 42 19 18 4C48-11 21-39 5-10C13-43-19-43 0-8Z"/><path d="M0-8C-14-19-19-4-8 1C-19 14-4 22 1 10C10 24 24 9 11 3C23-6 10-20 4-9Z"/><circle cy="2" r="5"/></g>
+ </defs>
+ <g stroke="#d4a58d" stroke-opacity=".20" stroke-width=".85" filter="url(#emboss)">
+  <path d="M119 320C154 273 69 232 108 182C138 144 179 129 149 64C139 43 118 16 120 0M107 184C52 171 41 137 54 99M120 224C180 213 191 177 184 155M140 273C68 269 50 240 57 212"/>
+  <use href="#leaf" transform="translate(146 87) rotate(14)"/><use href="#leaf" transform="translate(158 119) rotate(105)"/>
+  <use href="#leaf" transform="translate(111 180) rotate(-45)"/><use href="#leaf" transform="translate(109 201) rotate(82)"/>
+  <use href="#leaf" transform="translate(132 257) rotate(-32)"/><use href="#leaf" transform="translate(144 280) rotate(85)"/>
+  <use href="#flower" transform="translate(56 89) rotate(10)"/><use href="#flower" transform="translate(183 145) rotate(-20) scale(.8)"/><use href="#flower" transform="translate(56 205) scale(.65)"/>
+  <path d="M88 149C28 162 11 126 27 110C38 100 47 119 34 124M153 230C221 221 236 254 218 268C204 280 190 257 204 253M135 46C87 54 76 28 87 18C99 9 109 28 98 31"/>
+  <path d="M0 50Q25 30 42 50T85 50M174 301Q198 280 223 301T260 301" stroke-opacity=".12"/>
+ </g>
+</svg>
