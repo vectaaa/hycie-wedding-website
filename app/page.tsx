@@ -8,7 +8,7 @@ const eventDate = new Date("2026-12-05T11:00:00+01:00").getTime();
 const galleryUrl = "";
 
 const moments = [
-  "Sage Brown",
+  "Sage Green",
   "Beige",
   "Ivory White",
   "Lemon",
@@ -190,10 +190,10 @@ export default function Home() {
       <section className={`hero ${phase !== "closed" ? "hero--open" : ""}`}>
         <div className="hero__slides" aria-hidden="true">
           <div className={`hero__slide ${heroSlide === 0 ? "hero__slide--active" : ""}`}>
-            <img src="/images/wedding/hycie-image-5.jpeg" alt="" />
+            <img src="/images/wedding/hycie-hero-1.jpg" alt="" />
           </div>
           <div className={`hero__slide ${heroSlide === 1 ? "hero__slide--active" : ""}`}>
-            <img src="/images/wedding/hycie-image-2.jpeg" alt="" />
+            <img src="/images/wedding/hycie-hero-3.jpg" alt="" />
           </div>
         </div>
         <nav className="topbar" aria-label="Invitation navigation">
@@ -264,7 +264,7 @@ export default function Home() {
           <p className="eyebrow">Our story</p>
           <h2>From Friendship to Forever</h2>
           <figure className="story__feature-photo">
-            <img src="/images/wedding/hycie-image-10.jpeg" alt="Jane and John smiling together" loading="lazy" />
+            <img src="/images/wedding/hycie-hero-4.jpg" alt="Jane and John smiling together" loading="lazy" />
           </figure>
         </div>
         <div className="story__copy">
@@ -294,7 +294,7 @@ export default function Home() {
           </p>
           <div className="story__photos" aria-label="Photos of the couple">
             <figure>
-              <img src="/images/wedding/hycie-image-7.jpeg" alt="Jane and John together by the ocean" loading="lazy" />
+              <img src="/images/wedding/hycie-hero-5.jpg" alt="Jane and John together by the ocean" loading="lazy" />
             </figure>
           </div>
         </div>
