@@ -214,9 +214,9 @@ export default function Home() {
             <a className="primary-button" href="#gifting-rsvp">
               RSVP &amp; Gifting
             </a>
-            {/* <button className="primary-button gallery-trigger" type="button" onClick={() => setGalleryOpen(true)}>
-              View gallery <span aria-hidden="true">↗</span>
-            </button> */}
+            <a className="primary-button hero__gallery-link" href="/photos">
+              Photo library <span aria-hidden="true">↗</span>
+            </a>
             <button
               className="icon-button"
               onClick={() => setMusicOn((current) => !current)}

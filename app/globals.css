@@ -519,7 +519,8 @@ a {
 }
 
 .story__photos figure {
-  height: 22rem;
+  height: 100%;
+  min-height: 22rem;
   min-height: 0;
   margin: 0;
   overflow: hidden;
@@ -537,7 +538,7 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 28%;
   transition: transform 500ms ease;
 }
 
@@ -1199,6 +1200,61 @@ textarea {
   flex-shrink: 0;
   background: var(--champagne);
   color: var(--burgundy);
+}
+
+/* Wedding photo library */
+.hero__gallery-link { gap: .7rem; }
+.photo-library {
+  min-height: 100vh;
+  padding: 0 clamp(1.1rem, 5vw, 5rem) 2rem;
+  background: radial-gradient(ellipse at 50% 0, rgba(215, 200, 145, .2), transparent 36rem), #fffdf7;
+}
+.photo-library__topbar {
+  height: 5.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(64, 87, 71, .15);
+}
+.photo-library__back { color: var(--muted); font-size: .88rem; }
+.photo-library__back:hover { color: var(--ink); }
+.photo-library__brand { color: var(--night); font-family: Georgia, serif; font-size: 1.3rem; letter-spacing: .12em; }
+.photo-library__brand i { color: #9a755d; font-size: .75rem; font-style: normal; }
+.photo-library__intro { max-width: 48rem; margin: 0 auto; padding: clamp(3.5rem, 8vw, 6rem) 1rem 3rem; text-align: center; }
+.photo-library__intro .eyebrow { margin: 0 0 1rem; color: #71866d; font-size: .72rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+.photo-library__intro h1 { margin: 0; color: var(--night); font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.8rem, 7vw, 5.2rem); font-weight: 400; letter-spacing: -.04em; line-height: 1; }
+.photo-library__intro > p:not(.eyebrow) { margin: 1.15rem auto 1.35rem; color: var(--muted); font-family: Georgia, serif; font-size: clamp(1rem, 2.2vw, 1.22rem); }
+.photo-library__count { color: #7a857a; font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.photo-library__count b { padding: 0 .45rem; color: #b49a68; }
+.photo-library__grid { columns: 3 17rem; column-gap: 1rem; max-width: 1500px; margin: 0 auto; }
+.photo-library__tile { position: relative; display: block; width: 100%; margin: 0 0 1rem; padding: 0; overflow: hidden; break-inside: avoid; border: 0; border-radius: 5px; background: #e8e7dc; cursor: zoom-in; }
+.photo-library__tile img { display: block; width: 100%; height: auto; transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .4s; }
+.photo-library__tile:hover img { transform: scale(1.025); filter: brightness(.88); }
+.photo-library__zoom { position: absolute; right: 1rem; bottom: 1rem; display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid #fff9; border-radius: 50%; color: white; opacity: 0; transform: translateY(5px); transition: .2s; }
+.photo-library__tile:hover .photo-library__zoom, .photo-library__tile:focus-visible .photo-library__zoom { opacity: 1; transform: translateY(0); }
+.photo-library__tile:focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; }
+.photo-library__footer { padding: 3rem 1rem 1rem; color: #7a857a; text-align: center; font-family: Georgia, serif; font-size: .9rem; }
+.photo-library__footer span { margin: 0 .25rem; color: #9a755d; }
+.photo-lightbox { position: fixed; z-index: 30; inset: 0; display: flex; align-items: center; justify-content: center; gap: clamp(.5rem, 3vw, 3rem); padding: 4rem clamp(3.5rem, 8vw, 8rem); background: rgba(20, 29, 24, .96); color: white; }
+.photo-lightbox figure { display: flex; max-width: min(100%, 1100px); max-height: 100%; flex-direction: column; align-items: center; margin: 0; }
+.photo-lightbox figure img { display: block; max-width: 100%; max-height: calc(100vh - 8rem); object-fit: contain; }
+.photo-lightbox figcaption { padding-top: .8rem; color: #deded2; font-size: .75rem; letter-spacing: .14em; }
+.photo-lightbox figcaption span { padding: 0 .3rem; color: #93a18f; }
+.photo-lightbox__close, .photo-lightbox__arrow { position: fixed; display: grid; place-items: center; border: 1px solid #ffffff55; border-radius: 50%; background: #ffffff0c; color: white; cursor: pointer; transition: background .2s; }
+.photo-lightbox__close:hover, .photo-lightbox__arrow:hover { background: #ffffff25; }
+.photo-lightbox__close { top: 1.5rem; right: 1.5rem; width: 3rem; height: 3rem; font-size: 1.8rem; }
+.photo-lightbox__arrow { top: 50%; width: 3rem; height: 3rem; font-size: 2rem; transform: translateY(-50%); }
+.photo-lightbox__arrow--left { left: 1.5rem; }
+.photo-lightbox__arrow--right { right: 1.5rem; }
+@media (max-width: 600px) {
+  .photo-library__topbar { height: 4.5rem; }
+  .photo-library__grid { columns: 2 9rem; column-gap: .6rem; }
+  .photo-library__tile { margin-bottom: .6rem; }
+  .photo-lightbox { padding: 4rem 1rem; }
+  .photo-lightbox__arrow--left { left: .45rem; }
+  .photo-lightbox__arrow--right { right: .45rem; }
+  .photo-lightbox__arrow { width: 2.4rem; height: 2.4rem; }
+  .photo-lightbox__close { top: .8rem; right: .8rem; }
 }
 
 .gallery {
